@@ -26,12 +26,13 @@ RSpec.describe 'Todos API', type: :request do
         end
 
         context 'when the record does not exist' do
+            let(:todo_id) { 100 }
             it 'returns status code 404' do
                 expect(response).to have_http_status(404)
             end
 
             it 'returns not found message' do
-                expect(response.body).to match(/Couldn't find todo/)
+                expect(response.body).to match(/Couldn't find Todo with 'id'=100/)
             end
         end
     end
@@ -54,8 +55,8 @@ RSpec.describe 'Todos API', type: :request do
         context 'when request is not valid' do
             before { post '/todos', params: {} }
 
-            it 'returns status code 400' do
-                expect(response).to have_http_status(400)
+            it 'returns status code 422' do
+                expect(response).to have_http_status(422)
             end
 
             it 'returns validation failure message' do
